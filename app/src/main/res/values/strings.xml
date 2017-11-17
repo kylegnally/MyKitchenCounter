@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">MyKitchenCounter</string>
+    <string name="main_title">My Kitchen Counter</string>
 </resources>

@@ -1,9 +1,10 @@
 package com.knally0045.mykitchencounter;
 
+import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
-public class RecipeActivity extends AppCompatActivity {
+public class RecipeActivity extends FragmentActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
