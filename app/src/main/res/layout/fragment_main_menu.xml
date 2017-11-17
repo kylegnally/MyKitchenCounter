@@ -19,13 +19,49 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="72dp"
+        android:orientation="horizontal">
+
+        <ImageButton
+            android:id="@+id/new_recipe_button"
+            android:src="@drawable/new_recipe"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="72dp"
+            android:layout_margin="36dp"
+            android:padding="24dp"/>
+
+        <ImageButton
+            android:id="@+id/recipe_book_button"
+            android:src="@drawable/recipe_book"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="72dp"
+            android:layout_margin="36dp"
+            android:padding="24dp"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="horizontal">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="@string/new_recipe_string"
+            android:textSize="16sp"
+            android:layout_weight="0.5"
+            android:textAlignment="center"/>
 
-            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/recipe_book_string"
+            android:textSize="16sp"
+            android:layout_weight="0.5"
+            android:textAlignment="center"/>
 
     </LinearLayout>
 
