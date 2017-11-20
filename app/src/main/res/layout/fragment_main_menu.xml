@@ -48,6 +48,7 @@
         android:orientation="horizontal">
 
         <TextView
+            android:id="@+id/new_recipe_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/new_recipe_string"
@@ -56,6 +57,7 @@
             android:textAlignment="center"/>
 
         <TextView
+            android:id="@+id/browse_recipe_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/recipe_book_string"
