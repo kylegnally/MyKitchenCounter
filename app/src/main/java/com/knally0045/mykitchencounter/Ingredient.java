@@ -26,5 +26,4 @@ public class Ingredient {
     private String mIron;
 
 
-
 }

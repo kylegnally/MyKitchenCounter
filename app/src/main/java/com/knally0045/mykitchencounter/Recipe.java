@@ -27,4 +27,8 @@ public class Recipe {
         mIngredients = new ArrayList<>();
     }
 
+    public void AddAnIngredient (String ingredientString) {
+
+    }
+
 }
