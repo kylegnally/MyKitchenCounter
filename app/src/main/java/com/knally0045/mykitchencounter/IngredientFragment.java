@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -35,9 +34,11 @@ public class IngredientFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         View v = inflater.inflate(R.layout.recipe_ingredient_fragment, container, false);
-
         mIngredientString = (EditText) v.findViewById(R.id.new_ingredient);
+        // add OnTextChanged listener here
+
         mAddIngredientButton = (ImageButton) v.findViewById(R.id.add_ingredient_button);
+        // add onClick listener here
 
 //        mIngredientRecyclerView = (RecyclerView) v.findViewById(R.id.ingredient_recycler_view);
 //        mIngredientRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
