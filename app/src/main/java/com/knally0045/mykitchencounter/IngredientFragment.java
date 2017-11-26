@@ -36,15 +36,18 @@ public class IngredientFragment extends Fragment {
 
         View v = inflater.inflate(R.layout.recipe_ingredient_fragment, container, false);
 
-        mIngredientRecyclerView = (RecyclerView) v.findViewById(R.id.ingredient_recycler_view);
-        mIngredientRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        mRecipe = Recipe.get(mContext);
-        UpdateUI();
+        mIngredientString = (EditText) v.findViewById(R.id.new_ingredient);
+        mAddIngredientButton = (ImageButton) v.findViewById(R.id.add_ingredient_button);
+
+//        mIngredientRecyclerView = (RecyclerView) v.findViewById(R.id.ingredient_recycler_view);
+//        mIngredientRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+//
+//        UpdateUI();
         return v;
     }
 
     public void UpdateUI() {
-        Recipe recipe = Recipe.get(getActivity());
+
     }
 
 }
