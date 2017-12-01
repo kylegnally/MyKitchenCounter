@@ -1,6 +1,7 @@
 package com.knally0045.mykitchencounter;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -27,6 +28,7 @@ public class IngredientFragment extends Fragment {
     private RecyclerView mIngredientRecyclerView;
     private LinearLayout mNewIngredientLayout;
     private Recipe mRecipe;
+    private IngredientSearch mIngredientSearch;
     private Context mContext;
 
     @Override
@@ -40,15 +42,19 @@ public class IngredientFragment extends Fragment {
 
         final View v = inflater.inflate(R.layout.new_ingredient, container, false);
 
-        mNewIngredientLayout = (LinearLayout) v.findViewById(R.id.new_ingredient_layout);
+        mRecipe = Recipe.get(mContext);
 
+        mNewIngredientLayout = (LinearLayout) v.findViewById(R.id.new_ingredient_layout);
         mAddIngredientButton = (Button) v.findViewById(R.id.add_ingredient_button);
         mAddIngredientButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 LayoutInflater newInflater = LayoutInflater.from(getContext());
                 View view1 = newInflater.inflate(R.layout.single_new_ingredient, container, false);
+                mRecipe.AddAnIngredient(mIngredientString.getText().toString());
+                DisableEditText(mIngredientString);
                 mNewIngredientLayout.addView(view1);
+                view1.requestFocus();
                 //mAddIngredientButton.setVisibility(View.GONE);
 
                 // you will want to add another button to this layout
@@ -69,6 +75,7 @@ public class IngredientFragment extends Fragment {
             @Override
             public void onTextChanged(CharSequence charSequence, int start, int before, int count) {
                 // add the entry as a string to the ingredient search list
+
             }
 
             @Override
@@ -87,8 +94,12 @@ public class IngredientFragment extends Fragment {
         return v;
     }
 
-    public void UpdateUI() {
-
+    public void DisableEditText(EditText editText) {
+        editText.setFocusable(false);
+        editText.setEnabled(false);
+        editText.setCursorVisible(false);
+        editText.setKeyListener(null);
+        editText.setBackgroundColor(Color.TRANSPARENT);
     }
 
 }
