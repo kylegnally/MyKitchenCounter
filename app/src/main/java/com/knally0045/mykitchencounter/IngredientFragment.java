@@ -6,6 +6,8 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -40,7 +42,6 @@ public class IngredientFragment extends Fragment {
 
         mNewIngredientLayout = (LinearLayout) v.findViewById(R.id.new_ingredient_layout);
 
-        mIngredientString = (EditText) v.findViewById(R.id.new_ingredient);
         mAddIngredientButton = (Button) v.findViewById(R.id.add_ingredient_button);
         mAddIngredientButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -50,8 +51,32 @@ public class IngredientFragment extends Fragment {
                 mNewIngredientLayout.addView(view1);
                 //mAddIngredientButton.setVisibility(View.GONE);
 
+                // you will want to add another button to this layout
+                // that will also be at the top which gets enabled after a
+                // single ingredient and which sends the list as a search to
+                // the database to look up NDB numbers from the web service
+
             }
         });
+
+        mIngredientString = (EditText) v.findViewById(R.id.new_ingredient);
+        mIngredientString.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence entry, int start, int before, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int start, int before, int count) {
+                // add the entry as a string to the ingredient search list
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
 
         // add onClick listener here
 
