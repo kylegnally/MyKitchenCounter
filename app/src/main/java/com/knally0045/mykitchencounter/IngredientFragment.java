@@ -25,10 +25,8 @@ public class IngredientFragment extends Fragment {
 
     private Button mAddIngredientButton;
     private EditText mIngredientString;
-    private RecyclerView mIngredientRecyclerView;
     private LinearLayout mNewIngredientLayout;
     private Recipe mRecipe;
-    private IngredientSearch mIngredientSearch;
     private Context mContext;
 
     @Override
@@ -84,13 +82,6 @@ public class IngredientFragment extends Fragment {
             }
         });
 
-
-        // add onClick listener here
-
-//        mIngredientRecyclerView = (RecyclerView) v.findViewById(R.id.ingredient_recycler_view);
-//        mIngredientRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-//
-//        UpdateUI();
         return v;
     }
 
