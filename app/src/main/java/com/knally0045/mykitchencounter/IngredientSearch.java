@@ -1,6 +1,7 @@
 package com.knally0045.mykitchencounter;
 
-import java.util.UUID;
+import android.content.Context;
+import android.os.AsyncTask;
 
 /**
  * Created by kyleg on 11/17/2017.
@@ -8,17 +9,24 @@ import java.util.UUID;
 
 public class IngredientSearch {
 
-    public String mSearchString;
+    private static IngredientSearch mIngredientSearch;
+    //private NDBFetcher mNDBFetcher;
+    private String mSearchString;
 
-    public IngredientSearch(String searchString) {
-        this.mSearchString = searchString;
+    public static IngredientSearch get(Context context, String searchString) {
+        if (mIngredientSearch == null) {
+            mIngredientSearch = new IngredientSearch(context, searchString);
+        }
+        return mIngredientSearch;
     }
 
-    public String getSearchString() {
-        return mSearchString;
-    }
-
-    public void setSearchString(String searchString) {
+    private IngredientSearch(final Context context, String searchString) {
+        NDBFetcher mNDBFetcher = new NDBFetcher();
         mSearchString = searchString;
+        //mNDBFetcher.fetchMatches(mSearchString, context);
+
     }
+
 }
+
+

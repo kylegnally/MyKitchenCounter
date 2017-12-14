@@ -1,6 +1,7 @@
 package com.knally0045.mykitchencounter;
 
 import android.content.Context;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -9,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.util.ArrayList;
 import java.util.zip.Inflater;
 
 /**
@@ -19,7 +21,7 @@ public class IngredientListFragment extends Fragment {
 
     private RecyclerView mIngredientRecyclerView;
     // private IngredientAdapter mAdapter;
-    private Recipe mRecipe;
+    //private Recipe mRecipe;
     private Context mContext;
 
     @Override
@@ -28,9 +30,18 @@ public class IngredientListFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_ingredient_list, container, false);
         mIngredientRecyclerView = (RecyclerView) view.findViewById(R.id.ingredient_recycler_view);
         mIngredientRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        mRecipe = Recipe.get(mContext);
+        //mRecipe = Recipe.get(mContext);
         // UpdateUI();
         return view;
+    }
+
+    // update the UI whenever we call onResume()
+    public void onResume() {
+        super.onResume();
+        // updateUI();
+    }
+
+    public void UpdateUI() {
 
     }
 }

@@ -2,6 +2,7 @@ package com.knally0045.mykitchencounter;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -17,6 +18,8 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
+import java.util.ArrayList;
+
 /**
  * Created by kyleg on 11/23/2017.
  */
@@ -26,11 +29,15 @@ public class IngredientFragment extends Fragment {
     private Button mAddIngredientButton;
     private EditText mIngredientString;
     private LinearLayout mNewIngredientLayout;
-    private Recipe mRecipe;
+    private IngredientSearch mIngredientSearch;
     private Context mContext;
+
+    private String mOneIngredient;
+    private String mTemporaryResult;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
     }
 
@@ -40,8 +47,6 @@ public class IngredientFragment extends Fragment {
 
         final View v = inflater.inflate(R.layout.new_ingredient, container, false);
 
-        mRecipe = Recipe.get(mContext);
-
         mNewIngredientLayout = (LinearLayout) v.findViewById(R.id.new_ingredient_layout);
         mAddIngredientButton = (Button) v.findViewById(R.id.add_ingredient_button);
         mAddIngredientButton.setOnClickListener(new View.OnClickListener() {
@@ -49,8 +54,14 @@ public class IngredientFragment extends Fragment {
             public void onClick(View view) {
                 LayoutInflater newInflater = LayoutInflater.from(getContext());
                 View view1 = newInflater.inflate(R.layout.single_new_ingredient, container, false);
-                mRecipe.AddAnIngredient(mIngredientString.getText().toString());
-                DisableEditText(mIngredientString);
+
+                mContext = getActivity();
+                mIngredientSearch = IngredientSearch.get(mContext, mOneIngredient);
+                new FetchMatchesTask().execute();
+
+                //mRecipe.AddAnIngredient(mIngredientString.getText().toString());
+
+                //DisableEditText(mIngredientString);
                 mNewIngredientLayout.addView(view1);
                 view1.requestFocus();
                 //mAddIngredientButton.setVisibility(View.GONE);
@@ -72,7 +83,7 @@ public class IngredientFragment extends Fragment {
 
             @Override
             public void onTextChanged(CharSequence charSequence, int start, int before, int count) {
-                // add the entry as a string to the ingredient search list
+                mOneIngredient = mIngredientString.getText().toString();
 
             }
 
@@ -84,6 +95,20 @@ public class IngredientFragment extends Fragment {
 
         return v;
     }
+
+    private class FetchMatchesTask extends AsyncTask<Void,Void,String> {
+        @Override
+        protected String doInBackground(Void... voids) {
+            return new NDBFetcher().fetchMatches(mOneIngredient, mContext);
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            mTemporaryResult = s;
+        }
+    }
+
+
 
     public void DisableEditText(EditText editText) {
         editText.setFocusable(false);
