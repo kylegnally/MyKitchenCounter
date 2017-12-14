@@ -1,5 +1,6 @@
 package com.knally0045.mykitchencounter;
 
+import android.content.res.Resources;
 import android.net.Uri;
 import android.util.Log;
 
@@ -9,6 +10,10 @@ import java.io.InputStream;
 import java.net.URL;
 import java.util.ArrayList;
 import android.content.Context;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import javax.net.ssl.HttpsURLConnection;
 
@@ -52,23 +57,48 @@ public class NDBFetcher {
     }
 
     public String fetchMatches(String search, Context context) {
-        ArrayList<PossibleIngredientMatch> matches = new ArrayList();
 
+        // check for spaces and replace with + sign for single ingredients
+        // with multiple words (ex.: "frozen cod")
         if (search.contains(" ")) {
-            search.replace(" ", "+");
+            search = search.replace(" ", "+");
         }
 
         try {
+
+            // concatenate the base URL, search term, and API key
             String url = Uri.parse(context.getResources().getString(R.string.ndb_number_url_prefix)
                     + search
                     + context.getResources().getString(R.string.ndb_number_url_suffix))
                     .buildUpon().toString();
             String jsonString = getUrlString(url);
             Log.i(TAG, "Received JSON: " + jsonString);
-            mJsonString = jsonString;
+
+            // send
+            parseMatches(jsonString);
+        } catch (JSONException je) {
+            Log.e(TAG, "Failed to parse JSON", je);
         } catch (IOException ioe) {
         Log.e(TAG, "Failed to fetch items. ", ioe);
     }
         return mJsonString;
     }
+
+    public ArrayList parseMatches(String returnedString) throws IOException, JSONException{
+        ArrayList<PossibleIngredientMatch> matches = new ArrayList();
+
+        JSONObject returnedObject = new JSONObject(returnedString);
+        JSONObject listObject = returnedObject.getJSONObject("list");
+        JSONArray itemArray = listObject.getJSONArray("item");
+
+        for (int i = 0; i < itemArray.length(); i++) {
+            JSONObject itemObject = itemArray.getJSONObject(i);
+            String name = itemObject.getString("name");
+            String ndbno = itemObject.getString("ndbno");
+            PossibleIngredientMatch matchedItem = new PossibleIngredientMatch(name, ndbno);
+            matches.add(matchedItem);
+        }
+        return matches;
+    }
+
 }

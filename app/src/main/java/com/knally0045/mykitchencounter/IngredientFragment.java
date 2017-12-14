@@ -104,7 +104,7 @@ public class IngredientFragment extends Fragment {
 
         @Override
         protected void onPostExecute(String s) {
-            mTemporaryResult = s;
+
         }
     }
 
