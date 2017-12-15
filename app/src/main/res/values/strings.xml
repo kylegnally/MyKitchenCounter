@@ -9,4 +9,5 @@
     <string name="ingredient_spinner_title">Matching database items</string>
     <string name="ndb_number_url_suffix">&amp;ds=Standard%20Reference&amp;max=25&amp;offset=0&amp;api_key=hmwFplvSAREe0f56ZcFDd6kQpF4CCDAh4d5iEJ7R</string>
     <string name="plus_sign">+</string>
+    <string name="dialog_title">Multiple results found. \nPlease select the closest matching ingredient.</string>
 </resources>

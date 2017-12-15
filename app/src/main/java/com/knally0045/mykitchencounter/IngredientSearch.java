@@ -3,6 +3,8 @@ package com.knally0045.mykitchencounter;
 import android.content.Context;
 import android.os.AsyncTask;
 
+import java.util.ArrayList;
+
 /**
  * Created by kyleg on 11/17/2017.
  */
@@ -10,23 +12,31 @@ import android.os.AsyncTask;
 public class IngredientSearch {
 
     private static IngredientSearch mIngredientSearch;
+    private ArrayList<PossibleIngredientMatch> mPossibleIngredientMatches;
     //private NDBFetcher mNDBFetcher;
-    private String mSearchString;
 
-    public static IngredientSearch get(Context context, String searchString) {
+    public static IngredientSearch get(Context context) {
         if (mIngredientSearch == null) {
-            mIngredientSearch = new IngredientSearch(context, searchString);
+            mIngredientSearch = new IngredientSearch(context);
         }
         return mIngredientSearch;
     }
 
-    private IngredientSearch(final Context context, String searchString) {
-        NDBFetcher mNDBFetcher = new NDBFetcher();
-        mSearchString = searchString;
-        //mNDBFetcher.fetchMatches(mSearchString, context);
+//    private IngredientSearch(final Context context, String searchString) {
+//        NDBFetcher mNDBFetcher = new NDBFetcher();
+//        //mNDBFetcher.fetchMatches(mSearchString, context);
+//
+//    }
 
+    private IngredientSearch(Context context) {
+        mPossibleIngredientMatches = new ArrayList<>();
     }
 
+    public ArrayList<PossibleIngredientMatch> getPossibleIngredientMatches() {
+        return mPossibleIngredientMatches;
+    }
+
+    public void setPossibleIngredientMatches(ArrayList<PossibleIngredientMatch> possibleIngredientMatches) {
+        mPossibleIngredientMatches = possibleIngredientMatches;
+    }
 }
-
-

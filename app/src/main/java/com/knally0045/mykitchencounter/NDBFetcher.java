@@ -84,7 +84,7 @@ public class NDBFetcher {
         return mJsonString;
     }
 
-    public ArrayList parseMatches(String returnedString) throws IOException, JSONException{
+    public void parseMatches(String returnedString) throws IOException, JSONException{
         ArrayList<PossibleIngredientMatch> matches = new ArrayList();
 
         JSONObject returnedObject = new JSONObject(returnedString);
@@ -98,7 +98,5 @@ public class NDBFetcher {
             PossibleIngredientMatch matchedItem = new PossibleIngredientMatch(name, ndbno);
             matches.add(matchedItem);
         }
-        return matches;
     }
-
 }

@@ -1,5 +1,6 @@
 package com.knally0045.mykitchencounter;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.graphics.Color;
 import android.os.AsyncTask;
@@ -56,15 +57,21 @@ public class IngredientFragment extends Fragment {
                 View view1 = newInflater.inflate(R.layout.single_new_ingredient, container, false);
 
                 mContext = getActivity();
-                mIngredientSearch = IngredientSearch.get(mContext, mOneIngredient);
+                mIngredientSearch = IngredientSearch.get(mContext);
                 new FetchMatchesTask().execute();
 
-                //mRecipe.AddAnIngredient(mIngredientString.getText().toString());
+                AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
+                builder.setTitle(R.string.dialog_title);
 
-                //DisableEditText(mIngredientString);
+                // populate the dialog with the items in the arraylist
+
+
+                // create the alert dialog
+                AlertDialog dialog = builder.create();
+                dialog.show();
+
                 mNewIngredientLayout.addView(view1);
                 view1.requestFocus();
-                //mAddIngredientButton.setVisibility(View.GONE);
 
                 // you will want to add another button to this layout
                 // that will also be at the top which gets enabled after a
