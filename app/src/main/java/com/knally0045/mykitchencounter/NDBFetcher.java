@@ -56,8 +56,8 @@ public class NDBFetcher {
         return new String(getUrlBytes(urlSpec));
     }
 
-    public String fetchMatches(String search, Context context) {
-
+    public ArrayList<PossibleIngredientMatch> fetchMatches(String search, Context context) {
+        ArrayList<PossibleIngredientMatch> matches = new ArrayList<>();
         // check for spaces and replace with + sign for single ingredients
         // with multiple words (ex.: "frozen cod")
         if (search.contains(" ")) {
@@ -75,17 +75,16 @@ public class NDBFetcher {
             Log.i(TAG, "Received JSON: " + jsonString);
 
             // send
-            parseMatches(jsonString);
+            parseMatches(matches, jsonString);
         } catch (JSONException je) {
             Log.e(TAG, "Failed to parse JSON", je);
         } catch (IOException ioe) {
         Log.e(TAG, "Failed to fetch items. ", ioe);
     }
-        return mJsonString;
+        return matches;
     }
 
-    public void parseMatches(String returnedString) throws IOException, JSONException{
-        ArrayList<PossibleIngredientMatch> matches = new ArrayList();
+    public void parseMatches(ArrayList<PossibleIngredientMatch> matches, String returnedString) throws IOException, JSONException{
 
         JSONObject returnedObject = new JSONObject(returnedString);
         JSONObject listObject = returnedObject.getJSONObject("list");
@@ -95,8 +94,13 @@ public class NDBFetcher {
             JSONObject itemObject = itemArray.getJSONObject(i);
             String name = itemObject.getString("name");
             String ndbno = itemObject.getString("ndbno");
-            PossibleIngredientMatch matchedItem = new PossibleIngredientMatch(name, ndbno);
-            matches.add(matchedItem);
+
+            PossibleIngredientMatch match = new PossibleIngredientMatch(name, ndbno);
+            match.setIngredientName(name);
+            match.setIngredientNDB(ndbno);
+
+            //PossibleIngredientMatch matchedItem = new PossibleIngredientMatch(name, ndbno);
+            matches.add(match);
         }
     }
 }

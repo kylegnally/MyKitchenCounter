@@ -39,4 +39,18 @@ public class IngredientSearch {
     public void setPossibleIngredientMatches(ArrayList<PossibleIngredientMatch> possibleIngredientMatches) {
         mPossibleIngredientMatches = possibleIngredientMatches;
     }
+
+    public void addPossibleMatch(String name, String nbdno) {
+        mPossibleIngredientMatches.add(new PossibleIngredientMatch(name, nbdno));
+    }
+
+    public PossibleIngredientMatch getDBMatch(String ndbno) {
+        for (PossibleIngredientMatch match : mPossibleIngredientMatches) {
+            if (match.getIngredientNDB().equals(ndbno)) {
+                return match;
+            }
+        }
+        return null;
+    }
+
 }

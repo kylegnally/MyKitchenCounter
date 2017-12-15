@@ -2,6 +2,7 @@ package com.knally0045.mykitchencounter;
 
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -60,15 +61,6 @@ public class IngredientFragment extends Fragment {
                 mIngredientSearch = IngredientSearch.get(mContext);
                 new FetchMatchesTask().execute();
 
-                AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
-                builder.setTitle(R.string.dialog_title);
-
-                // populate the dialog with the items in the arraylist
-
-
-                // create the alert dialog
-                AlertDialog dialog = builder.create();
-                dialog.show();
 
                 mNewIngredientLayout.addView(view1);
                 view1.requestFocus();
@@ -103,14 +95,37 @@ public class IngredientFragment extends Fragment {
         return v;
     }
 
-    private class FetchMatchesTask extends AsyncTask<Void,Void,String> {
+    private class FetchMatchesTask extends AsyncTask<Void,Void,ArrayList<PossibleIngredientMatch>> {
         @Override
-        protected String doInBackground(Void... voids) {
+        protected ArrayList<PossibleIngredientMatch> doInBackground(Void... voids) {
             return new NDBFetcher().fetchMatches(mOneIngredient, mContext);
         }
 
         @Override
-        protected void onPostExecute(String s) {
+        protected void onPostExecute(ArrayList<PossibleIngredientMatch> dbMatches) {
+            IngredientSearch search = IngredientSearch.get(getActivity());
+            //search.setPossibleIngredientMatches(dbMatches);
+            search.getPossibleIngredientMatches();
+            AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
+            builder.setTitle(R.string.dialog_title);
+            ArrayList<String> itemNames = new ArrayList<>();
+            ArrayList<String> itemNdb = new ArrayList<>();
+
+            for (PossibleIngredientMatch item : dbMatches) {
+                itemNames.add(item.getIngredientName());
+                itemNdb.add(item.getIngredientNDB());
+            }
+
+            builder.setSingleChoiceItems(itemNames.toArray(new String[itemNames.size()]), 0, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+
+                }
+            });
+            AlertDialog dialog = builder.create();
+            dialog.show();
+
+            // populate the alert dialog here
 
         }
     }
