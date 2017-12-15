@@ -113,15 +113,4 @@ public class IngredientFragment extends Fragment {
 
         }
     }
-
-
-
-    public void DisableEditText(EditText editText) {
-        editText.setFocusable(false);
-        editText.setEnabled(false);
-        editText.setCursorVisible(false);
-        editText.setKeyListener(null);
-        editText.setBackgroundColor(Color.TRANSPARENT);
-    }
-
 }

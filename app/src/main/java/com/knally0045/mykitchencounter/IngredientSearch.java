@@ -22,12 +22,6 @@ public class IngredientSearch {
         return mIngredientSearch;
     }
 
-//    private IngredientSearch(final Context context, String searchString) {
-//        NDBFetcher mNDBFetcher = new NDBFetcher();
-//        //mNDBFetcher.fetchMatches(mSearchString, context);
-//
-//    }
-
     private IngredientSearch(Context context) {
         mPossibleIngredientMatches = new ArrayList<>();
     }
