@@ -19,6 +19,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 
@@ -30,16 +31,17 @@ public class IngredientFragment extends Fragment {
 
     private Button mAddIngredientButton;
     private EditText mIngredientString;
+    private TextView mIngredientsList;
     private LinearLayout mNewIngredientLayout;
-    private IngredientSearch mIngredientSearch;
     private Context mContext;
+    private ArrayList<String> mFinalIngredients;
 
     private String mOneIngredient;
-    private String mTemporaryResult;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
 
+        mFinalIngredients = new ArrayList<>();
         super.onCreate(savedInstanceState);
     }
 
@@ -47,50 +49,25 @@ public class IngredientFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable final ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        final View v = inflater.inflate(R.layout.new_ingredient, container, false);
+        View v = inflater.inflate(R.layout.new_ingredient, container, false);
 
         mNewIngredientLayout = (LinearLayout) v.findViewById(R.id.new_ingredient_layout);
         mAddIngredientButton = (Button) v.findViewById(R.id.add_ingredient_button);
         mAddIngredientButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                LayoutInflater newInflater = LayoutInflater.from(getContext());
-                View view1 = newInflater.inflate(R.layout.single_new_ingredient, container, false);
-
+                mOneIngredient = mIngredientString.getText().toString();
                 mContext = getActivity();
-                mIngredientSearch = IngredientSearch.get(mContext);
+                //IngredientSearch mIngredientSearch = IngredientSearch.get(mContext);
                 new FetchMatchesTask().execute();
-
-
-                mNewIngredientLayout.addView(view1);
-                view1.requestFocus();
-
-                // you will want to add another button to this layout
-                // that will also be at the top which gets enabled after a
-                // single ingredient and which sends the list as a search to
-                // the database to look up NDB numbers from the web service
-
+                mIngredientString.setText(null);
+                view.requestFocus();
             }
         });
 
         mIngredientString = (EditText) v.findViewById(R.id.new_ingredient);
-        mIngredientString.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence entry, int start, int before, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int start, int before, int count) {
-                mOneIngredient = mIngredientString.getText().toString();
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-            }
-        });
+        mIngredientsList = (TextView) v.findViewById(R.id.ingredients_list);
+        mIngredientsList.setText(R.string.ingredients_title);
 
         return v;
     }
@@ -102,30 +79,37 @@ public class IngredientFragment extends Fragment {
         }
 
         @Override
-        protected void onPostExecute(ArrayList<PossibleIngredientMatch> dbMatches) {
+        protected void onPostExecute(final ArrayList<PossibleIngredientMatch> dbMatches) {
             IngredientSearch search = IngredientSearch.get(getActivity());
-            //search.setPossibleIngredientMatches(dbMatches);
             search.getPossibleIngredientMatches();
             AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
             builder.setTitle(R.string.dialog_title);
             ArrayList<String> itemNames = new ArrayList<>();
             ArrayList<String> itemNdb = new ArrayList<>();
 
+            final String[] names = new String[dbMatches.size()];
+            final String[] ndbnos = new String[dbMatches.size()];
+            int i = 0;
             for (PossibleIngredientMatch item : dbMatches) {
                 itemNames.add(item.getIngredientName());
                 itemNdb.add(item.getIngredientNDB());
+                names[i] = item.getIngredientName();
+                ndbnos[i] = item.getIngredientNDB();
+                i++;
             }
 
-            builder.setSingleChoiceItems(itemNames.toArray(new String[itemNames.size()]), 0, new DialogInterface.OnClickListener() {
+            builder.setItems(names, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
-
+                    String choice = names[i];
+                    int choiceIndex = i;
+                    String ndb = ndbnos[choiceIndex];
+                    mIngredientsList.append(String.format(getResources().getString(R.string.alertdialog_choice), choice));
+                    mFinalIngredients.add(ndb);
                 }
             });
             AlertDialog dialog = builder.create();
             dialog.show();
-
-            // populate the alert dialog here
 
         }
     }

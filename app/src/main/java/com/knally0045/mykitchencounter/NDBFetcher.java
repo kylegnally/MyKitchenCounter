@@ -1,6 +1,5 @@
 package com.knally0045.mykitchencounter;
 
-import android.content.res.Resources;
 import android.net.Uri;
 import android.util.Log;
 
@@ -98,8 +97,6 @@ public class NDBFetcher {
             PossibleIngredientMatch match = new PossibleIngredientMatch(name, ndbno);
             match.setIngredientName(name);
             match.setIngredientNDB(ndbno);
-
-            //PossibleIngredientMatch matchedItem = new PossibleIngredientMatch(name, ndbno);
             matches.add(match);
         }
     }
