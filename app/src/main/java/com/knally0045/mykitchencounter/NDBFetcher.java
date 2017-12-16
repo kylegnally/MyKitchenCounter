@@ -66,9 +66,9 @@ public class NDBFetcher {
         try {
 
             // concatenate the base URL, search term, and API key
-            String url = Uri.parse(context.getResources().getString(R.string.ndb_number_url_prefix)
+            String url = Uri.parse(context.getResources().getString(R.string.ndb_search_url_prefix)
                     + search
-                    + context.getResources().getString(R.string.ndb_number_url_suffix))
+                    + context.getResources().getString(R.string.ndb_search_url_suffix))
                     .buildUpon().toString();
             String jsonString = getUrlString(url);
             Log.i(TAG, "Received JSON: " + jsonString);

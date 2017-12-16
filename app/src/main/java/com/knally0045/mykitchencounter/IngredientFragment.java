@@ -3,22 +3,17 @@ package com.knally0045.mykitchencounter;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.RecyclerView;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -30,6 +25,7 @@ import java.util.ArrayList;
 public class IngredientFragment extends Fragment {
 
     private Button mAddIngredientButton;
+    private Button mGetNutritionButton;
     private EditText mIngredientString;
     private TextView mIngredientsList;
     private LinearLayout mNewIngredientLayout;
@@ -52,6 +48,7 @@ public class IngredientFragment extends Fragment {
         View v = inflater.inflate(R.layout.new_ingredient, container, false);
 
         mNewIngredientLayout = (LinearLayout) v.findViewById(R.id.new_ingredient_layout);
+
         mAddIngredientButton = (Button) v.findViewById(R.id.add_ingredient_button);
         mAddIngredientButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -65,11 +62,27 @@ public class IngredientFragment extends Fragment {
             }
         });
 
+        mGetNutritionButton = (Button) v.findViewById(R.id.get_nutrition_button);
+        mGetNutritionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mContext = getActivity();
+                new FetchNutritionTask().execute();
+            }
+        });
+
         mIngredientString = (EditText) v.findViewById(R.id.new_ingredient);
         mIngredientsList = (TextView) v.findViewById(R.id.ingredients_list);
         mIngredientsList.setText(R.string.ingredients_title);
 
         return v;
+    }
+
+    private class FetchNutritionTask extends AsyncTask<Void,Void,ArrayList<IngredientNutrition>> {
+        @Override
+        protected ArrayList<IngredientNutrition> doInBackground(Void... voids) {
+            return new GetNutritionResults().fetchNutrition(mFinalIngredients, mContext);
+        }
     }
 
     private class FetchMatchesTask extends AsyncTask<Void,Void,ArrayList<PossibleIngredientMatch>> {

@@ -13,7 +13,6 @@ public class IngredientSearch {
 
     private static IngredientSearch mIngredientSearch;
     private ArrayList<PossibleIngredientMatch> mPossibleIngredientMatches;
-    //private NDBFetcher mNDBFetcher;
 
     public static IngredientSearch get(Context context) {
         if (mIngredientSearch == null) {
