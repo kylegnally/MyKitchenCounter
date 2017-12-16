@@ -24,8 +24,10 @@ import static android.content.ContentValues.TAG;
 
 public class NDBFetcher {
 
+    // String to hold our JSON data
     private String mJsonString;
 
+    // set up an HTTPS connection and try to open it
     public byte[] getUrlBytes(String urlSpec) throws IOException {
         URL url = new URL(urlSpec);
         HttpsURLConnection connection = (HttpsURLConnection)url.openConnection();
@@ -51,10 +53,12 @@ public class NDBFetcher {
         }
     }
 
+    // get the URL string and return it
     public String getUrlString(String urlSpec) throws IOException {
         return new String(getUrlBytes(urlSpec));
     }
 
+    // fetch the NDB numbers, using the search string provided as a search term
     public ArrayList<PossibleIngredientMatch> fetchMatches(String search, Context context) {
         ArrayList<PossibleIngredientMatch> matches = new ArrayList<>();
         // check for spaces and replace with + sign for single ingredients
@@ -85,6 +89,7 @@ public class NDBFetcher {
 
     public void parseMatches(ArrayList<PossibleIngredientMatch> matches, String returnedString) throws IOException, JSONException{
 
+        // drill down to what we want from this request: NDB numbers and names of ingredients
         JSONObject returnedObject = new JSONObject(returnedString);
         JSONObject listObject = returnedObject.getJSONObject("list");
         JSONArray itemArray = listObject.getJSONArray("item");
@@ -94,6 +99,7 @@ public class NDBFetcher {
             String name = itemObject.getString("name");
             String ndbno = itemObject.getString("ndbno");
 
+            // create a new PossibleIngredientMatch and set the name and NDB number
             PossibleIngredientMatch match = new PossibleIngredientMatch(name, ndbno);
             match.setIngredientName(name);
             match.setIngredientNDB(ndbno);

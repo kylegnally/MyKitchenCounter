@@ -33,6 +33,7 @@ public class RecipeMenuFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_main_menu, container, false);
 
+        // add new recipe imagebutton and listener
         mNewRecipeButton = (ImageButton) v.findViewById(R.id.new_recipe_button);
         mNewRecipeTextView = (TextView) v.findViewById(R.id.new_recipe_text);
         mNewRecipeButton.setOnClickListener(new View.OnClickListener() {
@@ -46,6 +47,7 @@ public class RecipeMenuFragment extends Fragment {
             }
         });
 
+        // browse saved recipes imagebutton and listener (for future viewpager functionality)
         mBrowseSavedRecipesButton = (ImageButton) v.findViewById(R.id.recipe_book_button);
         mBrowseRecipesTextView = (TextView) v.findViewById(R.id.browse_recipe_text);
         mBrowseSavedRecipesButton.setOnClickListener(new View.OnClickListener() {

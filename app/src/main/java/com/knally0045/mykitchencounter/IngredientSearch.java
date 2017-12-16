@@ -14,6 +14,7 @@ public class IngredientSearch {
     private static IngredientSearch mIngredientSearch;
     private ArrayList<PossibleIngredientMatch> mPossibleIngredientMatches;
 
+    // sigleton
     public static IngredientSearch get(Context context) {
         if (mIngredientSearch == null) {
             mIngredientSearch = new IngredientSearch(context);

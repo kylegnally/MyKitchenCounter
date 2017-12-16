@@ -4,6 +4,7 @@ package com.knally0045.mykitchencounter;
  * Created by kyleg on 12/15/2017.
  */
 
+// class to hold nutrition information for one ingredient
 public class IngredientNutrition {
 
     private String mName;

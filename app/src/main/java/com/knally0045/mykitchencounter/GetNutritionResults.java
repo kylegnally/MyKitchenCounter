@@ -32,6 +32,7 @@ public class GetNutritionResults {
     private String mProtein;
     private String mFat;
 
+    // set up a HTTPS connection
     public byte[] getUrlBytes(String urlSpec) throws IOException {
         URL url = new URL(urlSpec);
         HttpsURLConnection connection = (HttpsURLConnection)url.openConnection();
@@ -57,27 +58,40 @@ public class GetNutritionResults {
         }
     }
 
+    // return the URL string
     public String getUrlString(String urlSpec) throws IOException {
         return new String(getUrlBytes(urlSpec));
     }
 
+    // fetch the nutrition information
     public ArrayList<IngredientNutrition> fetchNutrition(ArrayList<String> ndbs, Context context) {
         ArrayList<IngredientNutrition> nutrition = new ArrayList<>();
         try {
+
+            // set up prefixes and suffixes in the URL. These are the
+            // base URL and the API key, respectively
             String urlPrefix = (context.getResources().getString(R.string.ndb_number_url_prefix));
             String urlSuffix = (context.getResources().getString(R.string.ndb_number_url_suffix));
+
+            // use StringBuilder to concatenate our NDB search numbers
             StringBuilder ndbNumbers = new StringBuilder();
             for (String numbers : ndbs) {
                 ndbNumbers.append(context.getResources().getString(R.string.ndb_number_label)
                         + numbers
                         + context.getResources().getString(R.string.ndb_number_amp));
             }
+
+            // set a string to hold the completed NDB string
             String urlNDBNumbers = ndbNumbers.toString();
 
+            // now put the prefix, NDB numbers, and API key together into a single string
             String url = Uri.parse(urlPrefix + urlNDBNumbers + urlSuffix).buildUpon().toString();
+
+            // get the JSON response string from the server
             String jsonString = getUrlString(url);
             Log.i(TAG, "Received JSON: " + jsonString);
 
+            // send the ArrayList and the JSON string off to be parsed
             parseResults(nutrition, jsonString);
         } catch (JSONException je) {
             Log.e(TAG, "Failed to parse JSON", je);
@@ -87,7 +101,11 @@ public class GetNutritionResults {
         return nutrition;
     }
 
+    // parse the results. This method is not yet complete and requires more work - need to pull correct values out of JSON
+    // and then add them to a RecipeNutrition object
     public void parseResults(ArrayList<IngredientNutrition> nutritions, String returnedString) throws IOException, JSONException {
+
+        // drill down through the JSON object to get to what we want: nutrition information for each ingredient
         JSONObject returnedObject = new JSONObject(returnedString);
         JSONArray foodsObject = returnedObject.getJSONArray("foods");
 
@@ -101,6 +119,9 @@ public class GetNutritionResults {
                 JSONObject nutrientsEntry = nutrients.getJSONObject(j);
                 mNutrientName = nutrientsEntry.getString("name");
                 mNutrientValue = nutrientsEntry.getString("value");
+
+                // this section is supposed to extract the three nutrients by name from each
+                // nutrition object. This does not yet work correctly
                 if (mNutrientName == "Energy") {
                     mCalories = nutrientsEntry.getString("value");
 
@@ -117,13 +138,6 @@ public class GetNutritionResults {
 
 
         }
-//        JSONObject zeroObject = foodsObject.getJSONObject(0);
-//        JSONObject foodObject = zeroObject.getJSONObject("food");
-//        for (int i = 0; i < foodsObject.length(); i++) {
-//
-//        }
-
-
 
     }
 

@@ -8,6 +8,7 @@ import java.util.ArrayList;
  * Created by kyleg on 12/15/2017.
  */
 
+// clasxs to hold nutrition information for one ingredient. Currently unimplemented (see parseResults method of GetNutritionResults for more information)
 public class RecipeNutrition {
 
     private static RecipeNutrition mRecipeNutrition;

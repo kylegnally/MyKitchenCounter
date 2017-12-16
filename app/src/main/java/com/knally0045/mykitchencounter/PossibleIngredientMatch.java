@@ -6,6 +6,7 @@ import java.util.ArrayList;
  * Created by kyleg on 12/13/2017.
  */
 
+// class to hold the name and NDB number for a possible database match to a user's search string
 public class PossibleIngredientMatch {
 
     private String mIngredientName;
