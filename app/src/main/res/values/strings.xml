@@ -7,9 +7,9 @@
     <string name="add_another_ingredient">Add Another Ingredient</string>
     <string name="ndb_search_url_prefix">https://api.nal.usda.gov/ndb/search/?format=json&amp;q=</string>
     <string name="ingredient_spinner_title">Matching database items</string>
-    <string name="ndb_search_url_suffix">&amp;ds=Standard%20Reference&amp;max=25&amp;offset=0&amp;api_key=hmwFplvSAREe0f56ZcFDd6kQpF4CCDAh4d5iEJ7R</string>
+    <string name="ndb_search_url_suffix">&amp;ds=Standard%20Reference&amp;max=200&amp;offset=0&amp;api_key=hmwFplvSAREe0f56ZcFDd6kQpF4CCDAh4d5iEJ7R</string>
     <string name="plus_sign">+</string>
-    <string name="dialog_title">Multiple results found. Please choose from: </string>
+    <string name="dialog_title">Your search found these results: </string>
     <string name="get_nutrition_button">Get nutrition</string>
     <string name="ingredients_title">Your chosen ingredients: \n</string>
     <string name="alertdialog_choice">\n%1$s</string>

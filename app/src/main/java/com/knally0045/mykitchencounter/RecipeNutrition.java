@@ -32,8 +32,8 @@ public class RecipeNutrition {
         mIngredientNutritions = ingredientNutritions;
     }
 
-    public void addNutrition(int calories, int protein, int fat) {
-        mIngredientNutritions.add(new IngredientNutrition(calories, protein, fat));
+    public void addNutrition(String name, String calories, String protein, String fat) {
+        mIngredientNutritions.add(new IngredientNutrition(name, calories, protein, fat));
     }
 
 
