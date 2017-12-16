@@ -10,3 +10,6 @@ This app will allow the user to enter free-text food ingredient search terms, su
 
 Data is currently not saved on screen rotation and the "Browse saved recipes" functionality is not yet implemented.
 
+### Known issues
+
+The app currently does not properly extract the nutrition information from the JSON object holding the ingredients requested by the user (it does, however, retrieve the information as a JSON and parses it down to the nested "nutrients" JSON array).
