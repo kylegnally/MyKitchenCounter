@@ -57,8 +57,8 @@ public class GetNutritionResults {
     public ArrayList<IngredientNutrition> fetchNutrition(ArrayList<String> ndbs, Context context) {
         ArrayList<IngredientNutrition> nutrition = new ArrayList<>();
         try {
-            String urlPrefix = (context.getResources().getString(R.string.ndb_search_url_prefix));
-            String urlSuffix = (context.getResources().getString(R.string.ndb_search_url_suffix));
+            String urlPrefix = (context.getResources().getString(R.string.ndb_number_url_prefix));
+            String urlSuffix = (context.getResources().getString(R.string.ndb_number_url_suffix));
             StringBuilder ndbNumbers = new StringBuilder();
             for (String numbers : ndbs) {
                 ndbNumbers.append(context.getResources().getString(R.string.ndb_number_label)
