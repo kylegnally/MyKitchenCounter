@@ -1,5 +1,8 @@
 package com.knally0045.mykitchencounter;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 /**
  * Created by kyleg on 12/15/2017.
  */
@@ -8,19 +11,15 @@ package com.knally0045.mykitchencounter;
 public class IngredientNutrition {
 
     private String mName;
-    private String mCalories;
-    private String mProtein;
-    private String mFat;
+    private Double mCalories;
+    private Double mProtein;
+    private Double mFat;
 
-    public IngredientNutrition(String name, String calories, String protein, String fat) {
+    public IngredientNutrition(String name, Double calories, Double protein, Double fat) {
         this.mName = name;
         this.mCalories = calories;
         this.mProtein = protein;
         this.mFat = fat;
-    }
-
-    public IngredientNutrition() {
-
     }
 
     public String getName() {
@@ -31,27 +30,27 @@ public class IngredientNutrition {
         mName = name;
     }
 
-    public String getCalories() {
+    public Double getCalories() {
         return mCalories;
     }
 
-    public void setCalories(String calories) {
+    public void setCalories(Double calories) {
         mCalories = calories;
     }
 
-    public String getProtein() {
+    public Double getProtein() {
         return mProtein;
     }
 
-    public void setProtein(String protein) {
+    public void setProtein(Double protein) {
         mProtein = protein;
     }
 
-    public String getFat() {
+    public Double getFat() {
         return mFat;
     }
 
-    public void setFat(String fat) {
+    public void setFat(Double fat) {
         mFat = fat;
     }
 }

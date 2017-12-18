@@ -4,7 +4,7 @@
     <string name="new_recipe_string">CREATE A NEW RECIPE</string>
     <string name="recipe_book_string">BROWSE RECIPES</string>
     <string name="enter_ingredient">Enter an ingredient</string>
-    <string name="add_another_ingredient">Add Another Ingredient</string>
+    <string name="add_another_ingredient">Add Ingredient</string>
     <string name="ndb_search_url_prefix">https://api.nal.usda.gov/ndb/search/?format=json&amp;q=</string>
     <string name="ingredient_spinner_title">Matching database items</string>
     <string name="ndb_search_url_suffix">&amp;ds=Standard%20Reference&amp;max=200&amp;offset=0&amp;api_key=hmwFplvSAREe0f56ZcFDd6kQpF4CCDAh4d5iEJ7R</string>
@@ -17,4 +17,9 @@
     <string name="ndb_number_label">ndbno=</string>
     <string name="ndb_number_amp">&amp;</string>
     <string name="ndb_number_url_suffix">type=b&amp;format=json&amp;api_key=hmwFplvSAREe0f56ZcFDd6kQpF4CCDAh4d5iEJ7R</string>
+    <string name="ingredients_label">YOUR INGREDIENTS: </string>
+    <string name="nutrients_list">NAME: %1$s\n CALORIES: %2$s\n FAT: %3$s\n PROTEIN: %4$s\n\n</string>
+    <string name="total_nutrition_label">TOTALS: </string>
+    <string name="nutrition_totals">\nCALORIES: %1$s\nFAT: %2$s\nPROTEIN: %3$s</string>
+    <string name="please_wait_string">Please wait...</string>
 </resources>

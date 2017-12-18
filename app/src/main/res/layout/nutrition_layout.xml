@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:id="@+id/nutrition_linearlayout"
+              android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/ingredient_label_textview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/ingredients_label"
+        android:textSize="16sp"
+        android:textStyle="bold"/>
+
+    <TextView
+        android:id="@+id/ingredient_nutrition"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="12dp"
+        android:layout_marginRight="12dp"
+        android:layout_marginTop="12dp"/>
+
+    <TextView
+        android:id="@+id/nutrition_totals_label"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/total_nutrition_label"
+        android:textSize="16sp"
+        android:textStyle="bold"/>
+
+    <TextView
+        android:id="@+id/nutrition_totals"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/nutrition_totals"/>
+
+</LinearLayout>

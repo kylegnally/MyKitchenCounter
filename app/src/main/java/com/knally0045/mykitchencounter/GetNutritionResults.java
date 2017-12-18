@@ -24,13 +24,12 @@ import static android.content.ContentValues.TAG;
 
 public class GetNutritionResults {
 
-    private ArrayList<String> mNDBArray;
-    private String mName;
     private String mNutrientName;
-    private String mNutrientValue;
-    private String mCalories;
-    private String mProtein;
-    private String mFat;
+    private double mCalories;
+    private double mProtein;
+    private double mFat;
+    private RecipeNutrition mNutrition;
+    private int mCount = 0;
 
     // set up a HTTPS connection
     public byte[] getUrlBytes(String urlSpec) throws IOException {
@@ -92,7 +91,7 @@ public class GetNutritionResults {
             Log.i(TAG, "Received JSON: " + jsonString);
 
             // send the ArrayList and the JSON string off to be parsed
-            parseResults(nutrition, jsonString);
+            parseResults(nutrition, jsonString, context);
         } catch (JSONException je) {
             Log.e(TAG, "Failed to parse JSON", je);
         } catch (IOException ioe) {
@@ -103,40 +102,54 @@ public class GetNutritionResults {
 
     // parse the results. This method is not yet complete and requires more work - need to pull correct values out of JSON
     // and then add them to a RecipeNutrition object
-    public void parseResults(ArrayList<IngredientNutrition> nutritions, String returnedString) throws IOException, JSONException {
+    public void parseResults(ArrayList<IngredientNutrition> nutritions, String returnedString, Context context) throws IOException, JSONException {
+
 
         // drill down through the JSON object to get to what we want: nutrition information for each ingredient
         JSONObject returnedObject = new JSONObject(returnedString);
         JSONArray foodsObject = returnedObject.getJSONArray("foods");
+        mNutrition = RecipeNutrition.get(context);
 
         for (int i = 0; i < foodsObject.length(); i++) {
             JSONObject foodIndex = foodsObject.getJSONObject(i);
             JSONObject foodObject = foodIndex.getJSONObject("food");
             JSONObject descObject = foodObject.getJSONObject("desc");
-            String name = descObject.getString("name");
+            mNutrientName = descObject.getString("name");
             JSONArray nutrients = foodObject.getJSONArray("nutrients");
             for (int j = 0; j < nutrients.length(); j++) {
+                //mCount = 0;
                 JSONObject nutrientsEntry = nutrients.getJSONObject(j);
-                mNutrientName = nutrientsEntry.getString("name");
-                mNutrientValue = nutrientsEntry.getString("value");
+                String nutrientName = nutrientsEntry.getString("name");
+                //mNutrientValue = nutrientsEntry.getString("value");
 
                 // this section is supposed to extract the three nutrients by name from each
                 // nutrition object. This does not yet work correctly
-                if (mNutrientName == "Energy") {
-                    mCalories = nutrientsEntry.getString("value");
-
+                if (nutrientName.contains("Energy")) {
+                    mCalories = nutrientsEntry.getDouble("value");
+                    mCount++;
                 }
 
-                if (mNutrientName == "Total lipid (fat)") {
-                    mFat = nutrientsEntry.getString("value");
+                if (nutrientName.contains("Total lipid (fat)")) {
+                    mFat = nutrientsEntry.getDouble("value");
+                    mCount++;
                 }
 
-                if (mNutrientName == "Protein") {
-                    mProtein = nutrientsEntry.getString("value");
+                if (nutrientName.contains("Protein")) {
+                    mProtein = nutrientsEntry.getDouble("value");
+                    mCount++;
                 }
+
+                if (mCount == 3) {
+                    IngredientNutrition nutrition = new IngredientNutrition(mNutrientName, mCalories, mProtein, mFat);
+                    nutrition.setName(mNutrientName);
+                    nutrition.setCalories(mCalories);
+                    nutrition.setProtein(mProtein);
+                    nutrition.setFat(mFat);
+                    nutritions.add(nutrition);
+                    mCount = 0;
+                }
+                mNutrition.setIngredientNutritions(nutritions);
             }
-
-
         }
 
     }

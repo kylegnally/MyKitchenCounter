@@ -33,7 +33,7 @@ public class RecipeNutrition {
         mIngredientNutritions = ingredientNutritions;
     }
 
-    public void addNutrition(String name, String calories, String protein, String fat) {
+    public void addNutrition(String name, Double calories, Double protein, Double fat) {
         mIngredientNutritions.add(new IngredientNutrition(name, calories, protein, fat));
     }
 

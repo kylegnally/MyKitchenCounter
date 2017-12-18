@@ -1,6 +1,7 @@
 package com.knally0045.mykitchencounter;
 
 import android.app.AlertDialog;
+import android.app.FragmentManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.AsyncTask;
@@ -8,6 +9,8 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,8 +34,9 @@ public class IngredientFragment extends Fragment {
     private LinearLayout mNewIngredientLayout;
     private Context mContext;
     private ArrayList<String> mFinalIngredients;
-
+    private ArrayList<IngredientNutrition> mIngredientNutritions;
     private String mOneIngredient;
+    private AlertDialog mWaitDialog;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -50,6 +54,7 @@ public class IngredientFragment extends Fragment {
         mNewIngredientLayout = (LinearLayout) v.findViewById(R.id.new_ingredient_layout);
 
         mAddIngredientButton = (Button) v.findViewById(R.id.add_ingredient_button);
+        mAddIngredientButton.setEnabled(false);
         mAddIngredientButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -66,10 +71,13 @@ public class IngredientFragment extends Fragment {
         });
 
         mGetNutritionButton = (Button) v.findViewById(R.id.get_nutrition_button);
+        mGetNutritionButton.setEnabled(false);
         mGetNutritionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 mContext = getActivity();
+                RecipeNutrition nutrition = RecipeNutrition.get(getActivity());
+                nutrition.setIngredientNutritions(mIngredientNutritions);
 
                 // start a new Get Nutrition background task and run it
                 new FetchNutritionTask().execute();
@@ -77,6 +85,22 @@ public class IngredientFragment extends Fragment {
         });
 
         mIngredientString = (EditText) v.findViewById(R.id.new_ingredient);
+        mIngredientString.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                mAddIngredientButton.setEnabled(true);
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
         mIngredientsList = (TextView) v.findViewById(R.id.ingredients_list);
         mIngredientsList.setText(R.string.ingredients_title);
 
@@ -84,11 +108,32 @@ public class IngredientFragment extends Fragment {
     }
 
     private class FetchNutritionTask extends AsyncTask<Void,Void,ArrayList<IngredientNutrition>> {
+
+        @Override
+        protected void onPreExecute() {
+            AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
+            builder.setTitle(R.string.please_wait_string);
+            AlertDialog waitDialog = builder.create();
+            mWaitDialog = waitDialog;
+            waitDialog.show();
+        }
+
         @Override
         protected ArrayList<IngredientNutrition> doInBackground(Void... voids) {
 
             // get the actual nutrition information
             return new GetNutritionResults().fetchNutrition(mFinalIngredients, mContext);
+        }
+
+        @Override
+        protected void onPostExecute(ArrayList<IngredientNutrition> nutritions) {
+            mIngredientNutritions = nutritions;
+            mWaitDialog.dismiss();
+            Fragment nutritionFragment = new RecipeNutritionFragment();
+            getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                    nutritionFragment, "com.knally0045.mykitchencounter.nutritionFragment")
+                    .addToBackStack(null)
+                    .commit();
         }
     }
 
@@ -101,7 +146,7 @@ public class IngredientFragment extends Fragment {
         }
 
         @Override
-        protected void onPostExecute(final ArrayList<PossibleIngredientMatch> dbMatches) {
+        protected void onPostExecute(ArrayList<PossibleIngredientMatch> dbMatches) {
             IngredientSearch search = IngredientSearch.get(getActivity());
             search.getPossibleIngredientMatches();
 
@@ -152,8 +197,11 @@ public class IngredientFragment extends Fragment {
 
                     // add the NDB number of the chosen ingredient from the Alert Dialog to the ArrayList
                     // holding all the NDB numbers for our ingredients
+
                     mFinalIngredients.add(ndb);
+                    mGetNutritionButton.setEnabled(true);
                 }
+
             });
 
             // call the builder create method
