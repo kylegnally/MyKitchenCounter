@@ -22,4 +22,5 @@
     <string name="total_nutrition_label">TOTALS: </string>
     <string name="nutrition_totals">\nCALORIES: %1$s\nFAT: %2$s\nPROTEIN: %3$s</string>
     <string name="please_wait_string">Please wait...</string>
+    <string name="no_ingredients_found">No ingredients are in this recipe.</string>
 </resources>

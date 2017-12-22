@@ -19,6 +19,7 @@ import java.util.ArrayList;
  * Created by kyleg on 12/16/2017.
  */
 
+// this class will also need a RacyclerView
 public class RecipeNutritionFragment extends IngredientFragment {
 
     private LinearLayout mNutritionLayout;

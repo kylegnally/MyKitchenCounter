@@ -9,6 +9,8 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -30,10 +32,19 @@ public class IngredientFragment extends Fragment {
     private Button mAddIngredientButton;
     private Button mGetNutritionButton;
     private EditText mIngredientString;
-    private TextView mIngredientsList;
+
+    // this will be removed when RecyclerView is implemented
+    //private TextView mIngredientsList;
+    private RecyclerView mIngredientsRecyclerView;
+    private IngredientAdapter mIngredientAdapter;
+
     private LinearLayout mNewIngredientLayout;
     private Context mContext;
+
+    // use the contents of this ArrayList to populate the RecyclerView??
     private ArrayList<String> mFinalIngredients;
+    //private ArrayList<String> mFinalIngredientNames;
+    private IngredientNames mIngredientNames;
     private ArrayList<IngredientNutrition> mIngredientNutritions;
     private String mOneIngredient;
     private AlertDialog mWaitDialog;
@@ -42,7 +53,51 @@ public class IngredientFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
 
         mFinalIngredients = new ArrayList<>();
+        //mFinalIngredientNames = new ArrayList<>();
         super.onCreate(savedInstanceState);
+    }
+
+    private class IngredientHolder extends RecyclerView.ViewHolder {
+        private TextView mIngredientTextView;
+        private NamesOfIngredients mNamesOfIngredients;
+
+        public IngredientHolder(View itemView) {
+            super(itemView);
+            mIngredientTextView = (TextView) itemView.findViewById(R.id.list_item_single_ingredient);
+        }
+
+        public void bindIngredient(NamesOfIngredients namesOfIngredients) {
+            mNamesOfIngredients = namesOfIngredients;
+            if (mNamesOfIngredients != null) {
+                mIngredientTextView.setText(namesOfIngredients.getIngredientName());
+            } else mIngredientTextView.setText(R.string.no_ingredients_found);
+        }
+
+    }
+
+    private class IngredientAdapter extends RecyclerView.Adapter<IngredientHolder> {
+        private ArrayList<NamesOfIngredients> mNamesOfIngredients;
+        public IngredientAdapter(ArrayList<NamesOfIngredients> namesOfIngredients) {
+            mNamesOfIngredients = namesOfIngredients;
+        }
+
+        @Override
+        public IngredientHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+            LayoutInflater layoutInflater = LayoutInflater.from(getActivity());
+            View view = layoutInflater.inflate(R.layout.list_item_ingredient, parent, false);
+            return new IngredientHolder(view);
+        }
+
+        @Override
+        public void onBindViewHolder(IngredientHolder holder, int position) {
+            NamesOfIngredients namesOfIngredients = mNamesOfIngredients.get(position);
+            holder.bindIngredient(namesOfIngredients);
+        }
+
+        @Override
+        public int getItemCount() {
+            return mNamesOfIngredients.size();
+        }
     }
 
     @Nullable
@@ -101,10 +156,30 @@ public class IngredientFragment extends Fragment {
 
             }
         });
-        mIngredientsList = (TextView) v.findViewById(R.id.ingredients_list);
-        mIngredientsList.setText(R.string.ingredients_title);
 
+        mIngredientsRecyclerView = (RecyclerView) v.findViewById(R.id.ingredient_recycler_view);
+        mIngredientsRecyclerView.setNestedScrollingEnabled(false);
+        mIngredientsRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+//        mIngredientsList = (TextView) v.findViewById(R.id.ingredients_list);
+//        mIngredientsList.setText(R.string.ingredients_title);
+
+        updateUI();
         return v;
+    }
+
+    private void updateUI() {
+
+        // replace this with IngredientNames
+        IngredientNames ingredientNames = IngredientNames.get(getActivity());
+        ArrayList<NamesOfIngredients> namesOfIngredients = ingredientNames.getIngredientNamesList();
+        //mIngredientNames.getIngredientNamesList();
+
+        if (mIngredientAdapter == null) {
+            mIngredientAdapter = new IngredientAdapter(namesOfIngredients);
+            mIngredientsRecyclerView.setAdapter(mIngredientAdapter);
+        } else {
+            mIngredientAdapter.notifyDataSetChanged();
+        }
     }
 
     private class FetchNutritionTask extends AsyncTask<Void,Void,ArrayList<IngredientNutrition>> {
@@ -148,7 +223,9 @@ public class IngredientFragment extends Fragment {
         @Override
         protected void onPostExecute(ArrayList<PossibleIngredientMatch> dbMatches) {
             IngredientSearch search = IngredientSearch.get(getActivity());
+            final IngredientNames ingredientNames = IngredientNames.get(getActivity());
             search.getPossibleIngredientMatches();
+            ingredientNames.getIngredientNamesList();
 
             // create an AlertDialog builder for showing us the possible ingredient matches
             AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
@@ -191,15 +268,22 @@ public class IngredientFragment extends Fragment {
 
                     // set a working string to hold the NDB number at index choiceindex
                     String ndb = ndbnos[choiceIndex];
+                    String name = names[choiceIndex];
 
                     // append the ingredient name held in choice to the TextView
-                    mIngredientsList.append(String.format(getResources().getString(R.string.alertdialog_choice), choice));
+                    //mIngredientsList.append(String.format(getResources().getString(R.string.alertdialog_choice), choice));
 
                     // add the NDB number of the chosen ingredient from the Alert Dialog to the ArrayList
                     // holding all the NDB numbers for our ingredients
 
                     mFinalIngredients.add(ndb);
+                    ingredientNames.addIngredientName(name);
+                    //mIngredientNames.getNames(name);
+                    //mFinalIngredientNames.add(name);
+                    //mIngredientNames.addIngredientName(name);
+                    //mIngredientAdapter.notifyDataSetChanged();
                     mGetNutritionButton.setEnabled(true);
+                    updateUI();
                 }
 
             });
