@@ -31,13 +31,4 @@ public class IngredientNames {
     public void addIngredientName(String name) {
         mIngredientNamesList.add(new NamesOfIngredients(name));
     }
-
-    public NamesOfIngredients getNames(String names) {
-        for (NamesOfIngredients name : mIngredientNamesList) {
-            if (name.getIngredientName().equals(names)) {
-                return name;
-            }
-        }
-        return null;
-    }
 }

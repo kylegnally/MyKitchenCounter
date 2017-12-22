@@ -33,17 +33,13 @@ public class IngredientFragment extends Fragment {
     private Button mGetNutritionButton;
     private EditText mIngredientString;
 
-    // this will be removed when RecyclerView is implemented
-    //private TextView mIngredientsList;
     private RecyclerView mIngredientsRecyclerView;
     private IngredientAdapter mIngredientAdapter;
 
     private LinearLayout mNewIngredientLayout;
     private Context mContext;
 
-    // use the contents of this ArrayList to populate the RecyclerView??
     private ArrayList<String> mFinalIngredients;
-    //private ArrayList<String> mFinalIngredientNames;
     private IngredientNames mIngredientNames;
     private ArrayList<IngredientNutrition> mIngredientNutritions;
     private String mOneIngredient;
@@ -53,7 +49,6 @@ public class IngredientFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
 
         mFinalIngredients = new ArrayList<>();
-        //mFinalIngredientNames = new ArrayList<>();
         super.onCreate(savedInstanceState);
     }
 
@@ -160,8 +155,6 @@ public class IngredientFragment extends Fragment {
         mIngredientsRecyclerView = (RecyclerView) v.findViewById(R.id.ingredient_recycler_view);
         mIngredientsRecyclerView.setNestedScrollingEnabled(false);
         mIngredientsRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-//        mIngredientsList = (TextView) v.findViewById(R.id.ingredients_list);
-//        mIngredientsList.setText(R.string.ingredients_title);
 
         updateUI();
         return v;
@@ -169,10 +162,8 @@ public class IngredientFragment extends Fragment {
 
     private void updateUI() {
 
-        // replace this with IngredientNames
         IngredientNames ingredientNames = IngredientNames.get(getActivity());
         ArrayList<NamesOfIngredients> namesOfIngredients = ingredientNames.getIngredientNamesList();
-        //mIngredientNames.getIngredientNamesList();
 
         if (mIngredientAdapter == null) {
             mIngredientAdapter = new IngredientAdapter(namesOfIngredients);
@@ -270,18 +261,10 @@ public class IngredientFragment extends Fragment {
                     String ndb = ndbnos[choiceIndex];
                     String name = names[choiceIndex];
 
-                    // append the ingredient name held in choice to the TextView
-                    //mIngredientsList.append(String.format(getResources().getString(R.string.alertdialog_choice), choice));
-
                     // add the NDB number of the chosen ingredient from the Alert Dialog to the ArrayList
                     // holding all the NDB numbers for our ingredients
-
                     mFinalIngredients.add(ndb);
                     ingredientNames.addIngredientName(name);
-                    //mIngredientNames.getNames(name);
-                    //mFinalIngredientNames.add(name);
-                    //mIngredientNames.addIngredientName(name);
-                    //mIngredientAdapter.notifyDataSetChanged();
                     mGetNutritionButton.setEnabled(true);
                     updateUI();
                 }

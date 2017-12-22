@@ -18,7 +18,4 @@ public class NamesOfIngredients {
         return mIngredientName;
     }
 
-    public void setIngredientName(String ingredientName) {
-        mIngredientName = ingredientName;
-    }
 }
