@@ -19,7 +19,7 @@ import java.util.ArrayList;
  * Created by kyleg on 12/16/2017.
  */
 
-// this class will also need a RacyclerView
+// this fragment will also need a RecyclerView
 public class RecipeNutritionFragment extends IngredientFragment {
 
     private LinearLayout mNutritionLayout;
@@ -64,12 +64,15 @@ public class RecipeNutritionFragment extends IngredientFragment {
         return v;
     }
 
+    // this information will need to be passed into a class the RecyclerView
+    // can use to populate each of its Views. The layout will need to have
+    // the ingredient name, then the nutrients, with the totals at the bottom.
+    // You will also need an updateUI() method that will be able to redraw the screen.
     public void getResults() {
         ArrayList<IngredientNutrition> ingredients = new ArrayList<>();
         mRecipeNutrition = RecipeNutrition.get(getActivity());
         mNutritions = mRecipeNutrition.getIngredientNutritions();
 
-        // breakpoint must be set prior to this line or app will crash
         for (IngredientNutrition ingredient : mNutritions) {
             ingredients.add(ingredient);
             mCalories = ingredient.getCalories();
@@ -78,6 +81,8 @@ public class RecipeNutritionFragment extends IngredientFragment {
             mTotalFat += mFat;
             mProtein = ingredient.getProtein();
             mTotalProtein += mProtein;
+
+            // create a layout for the RecyclerView that can hold all this info
             mNutritionTextView.append(String.format(getResources().getString(R.string.nutrients_list),
                     ingredient.getName(),
                     ingredient.getCalories().toString(),
