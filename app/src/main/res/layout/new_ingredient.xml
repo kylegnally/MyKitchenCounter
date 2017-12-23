@@ -12,7 +12,7 @@
         android:layout_height="match_parent"
         android:src="@drawable/notebook_image"
         android:scaleType="centerCrop"
-        android:layout_alignTop="@id/main_layout"/>
+        android:layout_alignTop="@id/main_layout"
 
     <LinearLayout
         android:id="@+id/main_layout"
@@ -65,7 +65,7 @@
             android:layout_marginRight="30dp"
             android:layout_marginTop="6dp"
             android:src="@drawable/plus_button"
-            app:backgroundTint="@color/kitchenCounterBackgroundColor"/>
+            app:backgroundTint="@color/add_ingredient_button_color"/>
 
     </LinearLayout>
 

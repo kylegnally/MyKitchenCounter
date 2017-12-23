@@ -4,5 +4,6 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
     <color name="kitchenCounterText">#413018</color>
-    <color name="kitchenCounterBackgroundColor">#d6b763</color>
+    <color name="kitchenCounterBackgroundColor">#ffeec0</color>
+    <color name="add_ingredient_button_color">#d6ba6e</color>
 </resources>
