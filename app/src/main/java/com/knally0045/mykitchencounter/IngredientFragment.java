@@ -8,6 +8,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -19,6 +20,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -30,13 +32,14 @@ import java.util.ArrayList;
 public class IngredientFragment extends Fragment {
 
     private Button mAddIngredientButton;
+    private FloatingActionButton mFloatingAddIngredientButton;
     private Button mGetNutritionButton;
     private EditText mIngredientString;
 
     private RecyclerView mIngredientsRecyclerView;
     private IngredientAdapter mIngredientAdapter;
 
-    private LinearLayout mNewIngredientLayout;
+    private RelativeLayout mNewIngredientLayout;
     private Context mContext;
 
     private ArrayList<String> mFinalIngredients;
@@ -101,11 +104,11 @@ public class IngredientFragment extends Fragment {
 
         View v = inflater.inflate(R.layout.new_ingredient, container, false);
 
-        mNewIngredientLayout = (LinearLayout) v.findViewById(R.id.new_ingredient_layout);
+        mNewIngredientLayout = (RelativeLayout) v.findViewById(R.id.new_ingredient_layout);
 
-        mAddIngredientButton = (Button) v.findViewById(R.id.add_ingredient_button);
-        mAddIngredientButton.setEnabled(false);
-        mAddIngredientButton.setOnClickListener(new View.OnClickListener() {
+        mFloatingAddIngredientButton = (FloatingActionButton) v.findViewById(R.id.floating_add_ingredient);
+        mFloatingAddIngredientButton.setEnabled(false);
+        mFloatingAddIngredientButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 mOneIngredient = mIngredientString.getText().toString();
@@ -143,7 +146,7 @@ public class IngredientFragment extends Fragment {
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                mAddIngredientButton.setEnabled(true);
+                mFloatingAddIngredientButton.setEnabled(true);
             }
 
             @Override
