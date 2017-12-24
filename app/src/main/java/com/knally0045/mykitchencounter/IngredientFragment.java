@@ -4,12 +4,15 @@ import android.app.AlertDialog;
 import android.app.FragmentManager;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.res.Resources;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
@@ -62,6 +65,8 @@ public class IngredientFragment extends Fragment {
         public IngredientHolder(View itemView) {
             super(itemView);
             mIngredientTextView = (TextView) itemView.findViewById(R.id.list_item_single_ingredient);
+            mIngredientTextView.setTypeface(ResourcesCompat.getFont(mContext, R.font.bradhitc));
+            mIngredientTextView.setTextColor(Color.BLACK);
         }
 
         public void bindIngredient(NamesOfIngredients namesOfIngredients) {

@@ -29,6 +29,5 @@
         android:layout_below="@+id/header"
         android:paddingLeft="4dp"
         android:paddingRight="4dp"
-        android:tilemode="repeat"
         app:srcCompat="@android:drawable/divider_horizontal_textfield"/>
 </RelativeLayout>
