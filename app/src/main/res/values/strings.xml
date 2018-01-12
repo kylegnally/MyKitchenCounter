@@ -4,6 +4,7 @@
     <string name="new_recipe_string">CREATE A NEW RECIPE</string>
     <string name="recipe_book_string">BROWSE RECIPES</string>
     <string name="enter_ingredient">Enter an ingredient</string>
+    <string name="gram_measure">Grams</string>
     <string name="add_another_ingredient">Add Ingredient</string>
     <string name="ndb_search_url_prefix">https://api.nal.usda.gov/ndb/search/?format=json&amp;q=</string>
     <string name="ingredient_spinner_title">Matching database items</string>

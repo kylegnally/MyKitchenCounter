@@ -21,14 +21,32 @@
         android:layout_marginLeft="12dp"
         android:orientation="vertical">
 
-        <EditText
-            android:id="@+id/new_ingredient"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="12dp"
-            android:layout_marginRight="12dp"
-            android:layout_marginTop="12dp"
-            android:hint="@string/enter_ingredient"/>
+            android:orientation="horizontal"
+            android:padding="12dp">
+
+            <EditText
+                android:id="@+id/new_ingredient"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start"
+                android:layout_marginRight="12dp"
+                android:layout_weight=".3"
+                android:hint="@string/enter_ingredient"
+                android:textAlignment="viewStart"/>
+
+            <EditText
+                android:id="@+id/gram_measure"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:layout_weight="1"
+                android:hint="@string/gram_measure"
+                android:textAlignment="viewEnd"/>
+
+        </LinearLayout>
 
         <android.support.v7.widget.RecyclerView
             xmlns:android="http://schemas.android.com/apk/res/android"
