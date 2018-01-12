@@ -25,6 +25,7 @@ import static android.content.ContentValues.TAG;
 public class GetNutritionResults {
 
     private String mNutrientName;
+    private Double mWeight;
     private double mCalories;
     private double mProtein;
     private double mFat;
@@ -63,7 +64,7 @@ public class GetNutritionResults {
     }
 
     // fetch the nutrition information
-    public ArrayList<IngredientNutrition> fetchNutrition(ArrayList<String> ndbs, Context context) {
+    public ArrayList<IngredientNutrition> fetchNutrition(ArrayList<String> ndbs, Double weight, Context context) {
         ArrayList<IngredientNutrition> nutrition = new ArrayList<>();
         try {
 
@@ -91,7 +92,7 @@ public class GetNutritionResults {
             Log.i(TAG, "Received JSON: " + jsonString);
 
             // send the ArrayList and the JSON string off to be parsed
-            parseResults(nutrition, jsonString, context);
+            parseResults(nutrition, weight, jsonString, context);
         } catch (JSONException je) {
             Log.e(TAG, "Failed to parse JSON", je);
         } catch (IOException ioe) {
@@ -100,15 +101,14 @@ public class GetNutritionResults {
         return nutrition;
     }
 
-    // parse the results. This method is not yet complete and requires more work - need to pull correct values out of JSON
-    // and then add them to a RecipeNutrition object
-    public void parseResults(ArrayList<IngredientNutrition> nutritions, String returnedString, Context context) throws IOException, JSONException {
+    public void parseResults(ArrayList<IngredientNutrition> nutritions, Double weight, String returnedString, Context context) throws IOException, JSONException {
 
 
         // drill down through the JSON object to get to what we want: nutrition information for each ingredient
         JSONObject returnedObject = new JSONObject(returnedString);
         JSONArray foodsObject = returnedObject.getJSONArray("foods");
         mNutrition = RecipeNutrition.get(context);
+        mWeight = weight;
 
         for (int i = 0; i < foodsObject.length(); i++) {
             JSONObject foodIndex = foodsObject.getJSONObject(i);
@@ -140,8 +140,9 @@ public class GetNutritionResults {
                 }
 
                 if (mCount == 3) {
-                    IngredientNutrition nutrition = new IngredientNutrition(mNutrientName, mCalories, mProtein, mFat);
+                    IngredientNutrition nutrition = new IngredientNutrition(mNutrientName, mWeight, mCalories, mProtein, mFat);
                     nutrition.setName(mNutrientName);
+                    nutrition.setWeight(mWeight);
                     nutrition.setCalories(mCalories);
                     nutrition.setProtein(mProtein);
                     nutrition.setFat(mFat);

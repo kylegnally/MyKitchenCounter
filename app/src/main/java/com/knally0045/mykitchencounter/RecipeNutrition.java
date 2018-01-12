@@ -8,7 +8,7 @@ import java.util.ArrayList;
  * Created by kyleg on 12/15/2017.
  */
 
-// clasxs to hold nutrition information for one ingredient. Currently unimplemented (see parseResults method of GetNutritionResults for more information)
+// class to hold nutrition information for one ingredient. Currently unimplemented (see parseResults method of GetNutritionResults for more information)
 public class RecipeNutrition {
 
     private static RecipeNutrition mRecipeNutrition;
@@ -33,8 +33,8 @@ public class RecipeNutrition {
         mIngredientNutritions = ingredientNutritions;
     }
 
-    public void addNutrition(String name, Double calories, Double protein, Double fat) {
-        mIngredientNutritions.add(new IngredientNutrition(name, calories, protein, fat));
+    public void addNutrition(String name, Double weight, Double calories, Double protein, Double fat) {
+        mIngredientNutritions.add(new IngredientNutrition(name, weight, calories, protein, fat));
     }
 
 

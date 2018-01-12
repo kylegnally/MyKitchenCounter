@@ -11,12 +11,14 @@ import android.os.Parcelable;
 public class IngredientNutrition {
 
     private String mName;
+    private Double mWeight;
     private Double mCalories;
     private Double mProtein;
     private Double mFat;
 
-    public IngredientNutrition(String name, Double calories, Double protein, Double fat) {
+    public IngredientNutrition(String name, Double weight, Double calories, Double protein, Double fat) {
         this.mName = name;
+        this.mWeight = weight;
         this.mCalories = calories;
         this.mProtein = protein;
         this.mFat = fat;
@@ -28,6 +30,14 @@ public class IngredientNutrition {
 
     public void setName(String name) {
         mName = name;
+    }
+
+    public Double getWeight() {
+        return mWeight;
+    }
+
+    public void setWeight(Double weight) {
+        mWeight = weight;
     }
 
     public Double getCalories() {

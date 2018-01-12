@@ -1,10 +1,8 @@
 package com.knally0045.mykitchencounter;
 
 import android.app.AlertDialog;
-import android.app.FragmentManager;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.res.Resources;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -22,7 +20,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -38,6 +35,7 @@ public class IngredientFragment extends Fragment {
     private FloatingActionButton mFloatingAddIngredientButton;
     private Button mGetNutritionButton;
     private EditText mIngredientString;
+    private EditText mGramsDouble;
 
     private RecyclerView mIngredientsRecyclerView;
     private IngredientAdapter mIngredientAdapter;
@@ -49,6 +47,7 @@ public class IngredientFragment extends Fragment {
     private IngredientNames mIngredientNames;
     private ArrayList<IngredientNutrition> mIngredientNutritions;
     private String mOneIngredient;
+    private Double mIngredientWeight;
     private AlertDialog mWaitDialog;
 
     @Override
@@ -117,6 +116,7 @@ public class IngredientFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 mOneIngredient = mIngredientString.getText().toString();
+                mIngredientWeight = Double.parseDouble(mGramsDouble.getText().toString());
                 mContext = getActivity();
 
                 // create a new Fetch task and run it
@@ -144,6 +144,24 @@ public class IngredientFragment extends Fragment {
 
         mIngredientString = (EditText) v.findViewById(R.id.new_ingredient);
         mIngredientString.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                //mFloatingAddIngredientButton.setEnabled(true);
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
+
+        mGramsDouble = (EditText) v.findViewById(R.id.gram_measure);
+        mGramsDouble.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
@@ -196,7 +214,7 @@ public class IngredientFragment extends Fragment {
         protected ArrayList<IngredientNutrition> doInBackground(Void... voids) {
 
             // get the actual nutrition information
-            return new GetNutritionResults().fetchNutrition(mFinalIngredients, mContext);
+            return new GetNutritionResults().fetchNutrition(mFinalIngredients, mIngredientWeight, mContext);
         }
 
         @Override
